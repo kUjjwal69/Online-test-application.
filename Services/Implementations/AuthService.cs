@@ -10,11 +10,13 @@ namespace TestManagementApplication.Services.Implementations
     {
         private readonly IUserRepository _userRepo;
         private readonly JwtHelper _jwtHelper;
+        private readonly ITokenService _tokenService;
 
-        public AuthService(IUserRepository userRepo, JwtHelper jwtHelper)
+        public AuthService(IUserRepository userRepo, JwtHelper jwtHelper, ITokenService tokenService)
         {
             _userRepo = userRepo;
             _jwtHelper = jwtHelper;
+            _tokenService = tokenService;
         }
 
         public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
@@ -31,6 +33,8 @@ namespace TestManagementApplication.Services.Implementations
             if (await _userRepo.GetByEmailAsync(request.Email) != null)
                 throw new InvalidOperationException("Email already registered.");
 
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
             var user = new User
             {
                 Username = request.Username,
@@ -38,7 +42,9 @@ namespace TestManagementApplication.Services.Implementations
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Role = "User",
                 IsActive = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                RefreshToken = refreshToken,
+                RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7)
             };
 
             await _userRepo.AddAsync(user);
@@ -47,6 +53,7 @@ namespace TestManagementApplication.Services.Implementations
             return new AuthResponse
             {
                 Token = token,
+                RefreshToken = refreshToken,
                 Username = user.Username,
                 Email = user.Email,
                 Role = user.Role,
@@ -68,15 +75,81 @@ namespace TestManagementApplication.Services.Implementations
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 throw new UnauthorizedAccessException("Invalid credentials.");
 
-            var token = _jwtHelper.GenerateToken(user);
+            var accessToken = _jwtHelper.GenerateToken(user); // JWT
+            var refreshToken = _tokenService.GenerateRefreshToken(); // random string
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+            await _userRepo.UpdateAsync(user);
             return new AuthResponse
             {
-                Token = token,
+                Token = accessToken,
+                RefreshToken = refreshToken,
                 Username = user.Username,
                 Email = user.Email,
                 Role = user.Role,
                 ExpiresAt = DateTime.UtcNow.AddHours(24)
             };
+        }
+
+        public async Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.AccessToken) || string.IsNullOrWhiteSpace(request.RefreshToken))
+                throw new ArgumentException("Access token and refresh token are required.");
+
+            // Extract user identity from the expired access token
+            var principal = _jwtHelper.GetPrincipalFromExpiredToken(request.AccessToken);
+            var userId = JwtHelper.GetUserIdFromClaims(principal);
+
+            var user = await _userRepo.GetByIdAsync(userId)
+                ?? throw new UnauthorizedAccessException("User not found.");
+
+            if (!user.IsActive)
+                throw new UnauthorizedAccessException("Your account has been deactivated.");
+
+            // Validate the refresh token matches and hasn't expired
+            if (user.RefreshToken != request.RefreshToken)
+                throw new UnauthorizedAccessException("Invalid refresh token.");
+
+            if (user.RefreshTokenExpiryTime == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+                throw new UnauthorizedAccessException("Refresh token has expired. Please login again.");
+
+            // Issue new tokens (token rotation)
+            var newAccessToken = _jwtHelper.GenerateToken(user);
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+            await _userRepo.UpdateAsync(user);
+
+            return new AuthResponse
+            {
+                Token = newAccessToken,
+                RefreshToken = newRefreshToken,
+                Username = user.Username,
+                Email = user.Email,
+                Role = user.Role,
+                ExpiresAt = DateTime.UtcNow.AddHours(24)
+            };
+        }
+
+        public async Task RevokeTokenAsync(string accessToken)
+        {
+            if (string.IsNullOrWhiteSpace(accessToken))
+                throw new ArgumentException("Access token is required.");
+
+            var principal = _jwtHelper.GetPrincipalFromExpiredToken(accessToken);
+            var userId = JwtHelper.GetUserIdFromClaims(principal);
+
+            var user = await _userRepo.GetByIdAsync(userId)
+                ?? throw new UnauthorizedAccessException("User not found.");
+
+            user.RefreshToken = null;
+            user.RefreshTokenExpiryTime = null;
+
+            await _userRepo.UpdateAsync(user);
         }
     }
 }

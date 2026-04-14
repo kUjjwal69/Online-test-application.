@@ -1,4 +1,4 @@
-﻿using TestManagementApplication.Models.DTOs.Auth;
+using TestManagementApplication.Models.DTOs.Auth;
 
 namespace TestManagementApplication.Services.Interfaces
 {
@@ -6,5 +6,7 @@ namespace TestManagementApplication.Services.Interfaces
     {
         Task<AuthResponse> RegisterAsync(RegisterRequest request);
         Task<AuthResponse> LoginAsync(LoginRequest request);
+        Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request);
+        Task RevokeTokenAsync(string accessToken);
     }
 }

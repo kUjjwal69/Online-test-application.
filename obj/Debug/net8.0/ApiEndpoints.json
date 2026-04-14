@@ -1,0 +1,766 @@
+[
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetAllCandidates",
+    "RelativePath": "api/admin/Get-all-users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetCandidateById",
+    "RelativePath": "api/admin/id{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "UpdateQuestion",
+    "RelativePath": "api/admin/questions/{questionId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Admin.UpdateQuestionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "DeleteQuestion",
+    "RelativePath": "api/admin/questions/{questionId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetAllSessions",
+    "RelativePath": "api/admin/sessions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetSession",
+    "RelativePath": "api/admin/sessions/{sessionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetScreenshots",
+    "RelativePath": "api/admin/sessions/{sessionId}/screenshots",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "SuspendSession",
+    "RelativePath": "api/admin/sessions/{sessionId}/suspend",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetVideos",
+    "RelativePath": "api/admin/sessions/{sessionId}/UploadedVideos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetViolations",
+    "RelativePath": "api/admin/sessions/{sessionId}/violations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetAllTests",
+    "RelativePath": "api/admin/tests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "CreateTest",
+    "RelativePath": "api/admin/tests",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Admin.CreateTestRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "UpdateTest",
+    "RelativePath": "api/admin/tests/{testId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Admin.UpdateTestRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "DeleteTest",
+    "RelativePath": "api/admin/tests/{testId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "AssignTest",
+    "RelativePath": "api/admin/tests/{testId}/assign",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Admin.AssignTestRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "GetQuestions",
+    "RelativePath": "api/admin/tests/{testId}/questions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "AddQuestion",
+    "RelativePath": "api/admin/tests/{testId}/questions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Admin.CreateQuestionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AdminController",
+    "Method": "UnassignTest",
+    "RelativePath": "api/admin/tests/{testId}/Unassign",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Auth.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AuthController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/auth/refresh",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Auth.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "api/auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Auth.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.AuthController",
+    "Method": "RevokeToken",
+    "RelativePath": "api/auth/revoke",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Controllers.RevokeTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.CandidateController",
+    "Method": "SubmitAnswer",
+    "RelativePath": "api/candidate/sessions/{sessionId}/answers",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Candidate.SubmitAnswerRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Candidate.SubmitAnswerResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.CandidateController",
+    "Method": "GetQuestions",
+    "RelativePath": "api/candidate/sessions/{sessionId}/questions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[TestManagementApplication.Models.DTOs.Candidate.QuestionForCandidateResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 403
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.CandidateController",
+    "Method": "GetResult",
+    "RelativePath": "api/candidate/sessions/{sessionId}/result",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Candidate.TestResultResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.CandidateController",
+    "Method": "SubmitTest",
+    "RelativePath": "api/candidate/sessions/{sessionId}/submit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Candidate.TestResultResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.CandidateController",
+    "Method": "GetAssignedTests",
+    "RelativePath": "api/candidate/tests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[TestManagementApplication.Models.DTOs.Candidate.AssignedTestResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.CandidateController",
+    "Method": "StartTest",
+    "RelativePath": "api/candidate/tests/{testId}/start",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "testId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Candidate.StartTestResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.ProctoringController",
+    "Method": "Heartbeat",
+    "RelativePath": "api/proctoring/sessions/{sessionId}/heartbeat",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Proctoring.SessionHeartbeatRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Proctoring.SessionHeartbeatResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.ProctoringController",
+    "Method": "UploadScreenshot",
+    "RelativePath": "api/proctoring/sessions/{sessionId}/screenshot",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Proctoring.UploadScreenshotRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Proctoring.UploadScreenshotResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.ProctoringController",
+    "Method": "UploadVideoChunk",
+    "RelativePath": "api/proctoring/sessions/{sessionId}/video/chunk",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "ContentType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ContentDisposition",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Headers",
+        "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+        "IsRequired": false
+      },
+      {
+        "Name": "Length",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "videoType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "chunkIndex",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "recordingId",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Proctoring.VideoChunkUploadResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.ProctoringController",
+    "Method": "CompleteVideo",
+    "RelativePath": "api/proctoring/sessions/{sessionId}/video/complete",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Proctoring.VideoCompleteRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Proctoring.VideoCompleteResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "TestManagementApplication.Controllers.ProctoringController",
+    "Method": "ReportViolation",
+    "RelativePath": "api/proctoring/sessions/{sessionId}/violation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sessionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "TestManagementApplication.Models.DTOs.Proctoring.ReportViolationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse\u00601[[TestManagementApplication.Models.DTOs.Proctoring.ReportViolationResponse, TestManagementApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "TestManagementApplication.Common.ApiResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  }
+]
