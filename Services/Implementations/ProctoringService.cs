@@ -64,7 +64,7 @@ namespace TestManagementApplication.Services.Implementations
                     CapturedAt = DateTime.UtcNow
                 };
 
-                await _imageRepo.CreateAsync(captured);
+                await _imageRepo.AddAsync(captured);
 
                 return new UploadScreenshotResponse
                 {
@@ -98,7 +98,7 @@ namespace TestManagementApplication.Services.Implementations
                 OccurredAt = DateTime.UtcNow
             };
 
-            await _violationRepo.CreateAsync(violation);
+            await _violationRepo.AddAsync(violation);
 
             // Increment violation count on session
             session.ViolationCount++;
@@ -182,7 +182,7 @@ namespace TestManagementApplication.Services.Implementations
                     IsComplete = false,
                     FilePath = string.Empty // will be set on complete
                 };
-                await _videoRepo.CreateAsync(recording);
+                await _videoRepo.AddAsync(recording);
             }
 
             // Save chunk to disk

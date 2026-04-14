@@ -41,7 +41,7 @@ namespace TestManagementApplication.Services.Implementations
                 CreatedAt = DateTime.UtcNow
             };
 
-            await _userRepo.CreateAsync(user);
+            await _userRepo.AddAsync(user);
 
             var token = _jwtHelper.GenerateToken(user);
             return new AuthResponse

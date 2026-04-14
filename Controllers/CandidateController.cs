@@ -20,9 +20,7 @@ namespace TestManagementApplication.Controllers
             _candidateService = candidateService;
         }
 
-        // ══════════════════════════════════════════════════════
-        //  ASSIGNED TESTS
-        // ══════════════════════════════════════════════════════
+      
 
         /// <summary>[Candidate] View all tests assigned to the logged-in candidate</summary>
         [HttpGet("tests")]
@@ -34,9 +32,7 @@ namespace TestManagementApplication.Controllers
             return Ok(ApiResponse<IEnumerable<AssignedTestResponse>>.Ok(tests));
         }
 
-        // ══════════════════════════════════════════════════════
-        //  START TEST
-        // ══════════════════════════════════════════════════════
+       
 
         /// <summary>[Candidate] Start an assigned test (creates a TestSession)</summary>
         [HttpPost("tests/{testId:guid}/start")]
@@ -50,9 +46,7 @@ namespace TestManagementApplication.Controllers
             return Ok(ApiResponse<StartTestResponse>.Ok(result, "Test session started."));
         }
 
-        // ══════════════════════════════════════════════════════
-        //  QUESTIONS
-        // ══════════════════════════════════════════════════════
+       
 
         /// <summary>[Candidate] Fetch questions for an active test session</summary>
         [HttpGet("sessions/{sessionId:guid}/questions")]
@@ -65,9 +59,7 @@ namespace TestManagementApplication.Controllers
             return Ok(ApiResponse<IEnumerable<QuestionForCandidateResponse>>.Ok(questions));
         }
 
-        // ══════════════════════════════════════════════════════
-        //  SUBMIT ANSWER
-        // ══════════════════════════════════════════════════════
+        
 
         /// <summary>[Candidate] Submit or update an answer for a question</summary>
         [HttpPost("sessions/{sessionId:guid}/answers")]
@@ -80,9 +72,7 @@ namespace TestManagementApplication.Controllers
             return Ok(ApiResponse<SubmitAnswerResponse>.Ok(result, "Answer submitted."));
         }
 
-        // ══════════════════════════════════════════════════════
-        //  SUBMIT TEST
-        // ══════════════════════════════════════════════════════
+       
 
         /// <summary>[Candidate] Submit the test and get scored results</summary>
         [HttpPost("sessions/{sessionId:guid}/submit")]
@@ -95,9 +85,7 @@ namespace TestManagementApplication.Controllers
             return Ok(ApiResponse<TestResultResponse>.Ok(result, "Test submitted successfully."));
         }
 
-        // ══════════════════════════════════════════════════════
-        //  GET RESULT
-        // ══════════════════════════════════════════════════════
+       
 
         /// <summary>[Candidate] View results of a completed test session</summary>
         [HttpGet("sessions/{sessionId:guid}/result")]
