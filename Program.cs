@@ -6,6 +6,7 @@ using System.Text;
 using TestManagementApplication.Data;
 using TestManagementApplication.Helpers;
 using TestManagementApplication.Middleware;
+using TestManagementApplication.Repositories.Generic;
 using TestManagementApplication.Repositories.Implementations;
 using TestManagementApplication.Repositories.Interfaces;
 using TestManagementApplication.Services.Implementations;
@@ -98,6 +99,7 @@ builder.Services.AddScoped<IUserAnswerRepository, UserAnswerRepository>();
 builder.Services.AddScoped<IViolationRepository, ViolationRepository>();
 builder.Services.AddScoped<ICapturedImageRepository, CapturedImageRepository>();
 builder.Services.AddScoped<IVideoRecordingRepository, VideoRecordingRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 // ═══════════════════════════════════════════════════════════════
 //  DEPENDENCY INJECTION — SERVICES
@@ -202,10 +204,29 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     serverOptions.Limits.MaxRequestBodySize = 52_428_800; // 50 MB
 });
 
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // Angular
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+});
+
+
 // ═══════════════════════════════════════════════════════════════
 //  BUILD
 // ═══════════════════════════════════════════════════════════════
 var app = builder.Build();
+
+
+app.UseCors("AllowFrontend");
+
 
 // ─── Global Exception Middleware (must be FIRST) ──────────────
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -220,6 +241,9 @@ app.UseSwaggerUI(c =>
     c.DefaultModelsExpandDepth(-1); // Hide schema models by default
     c.DisplayRequestDuration();
 });
+
+
+
 
 // ─── Static Files (for serving uploaded screenshots/videos) ───
 app.UseStaticFiles();

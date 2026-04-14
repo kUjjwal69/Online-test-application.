@@ -106,7 +106,7 @@ namespace TestManagementApplication.Services.Implementations
                 ViolationCount = 0
             };
 
-            await _sessionRepo.CreateAsync(session);
+            await _sessionRepo.AddAsync(session);
 
             return new StartTestResponse
             {
@@ -177,7 +177,7 @@ namespace TestManagementApplication.Services.Implementations
                 SubmittedAt = DateTime.UtcNow
             };
 
-            await _answerRepo.CreateAsync(answer);
+            await _answerRepo.AddAsync(answer);
             return new SubmitAnswerResponse
             {
                 AnswerId = answer.Id,

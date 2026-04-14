@@ -1,5 +1,6 @@
 using TestManagementApplication.Models.DTOs.Admin;
 using TestManagementApplication.Models.Entities;
+using TestManagementApplication.Repositories.Generic;
 using TestManagementApplication.Repositories.Interfaces;
 using TestManagementApplication.Services.Interfaces;
 
@@ -54,7 +55,7 @@ namespace TestManagementApplication.Services.Implementations
                 CreatedBy = adminId
             };
 
-            await _testRepo.CreateAsync(test);
+            await _testRepo.AddAsync(test);
             var creator = await _userRepo.GetByIdAsync(adminId);
             return MapTestResponse(test, creator, 0);
         }
@@ -112,7 +113,7 @@ namespace TestManagementApplication.Services.Implementations
                 OrderIndex = request.OrderIndex
             };
 
-            await _questionRepo.CreateAsync(question);
+            await _questionRepo.AddAsync(question);
             return MapQuestionResponse(question);
         }
 
@@ -168,7 +169,14 @@ namespace TestManagementApplication.Services.Implementations
                 UserId = request.UserId,
                 ExpiresAt = request.ExpiresAt
             };
-            await _assignmentRepo.CreateAsync(assignment);
+            await _assignmentRepo.AddAsync(assignment);
+        }
+
+        public async Task UnassignTestAsync(Guid testId, Guid userId)
+        {
+            if (!await _assignmentRepo.ExistsAsync(testId, userId))
+                throw new KeyNotFoundException("Test assignment not found for this user.");
+            await _assignmentRepo.DeleteAsync(testId, userId);
         }
 
         // ─── SESSIONS ─────────────────────────────────────────────────────
@@ -249,7 +257,7 @@ namespace TestManagementApplication.Services.Implementations
 
         public async Task<IEnumerable<UserResponse>> GetAllCandidatesAsync()
         {
-            var users = await _userRepo.GetAllCandidatesAsync();
+            var users = await _userRepo.GetAllAsync();
             return users.Select(u => new UserResponse
             {
                 Id = u.Id,
@@ -259,6 +267,24 @@ namespace TestManagementApplication.Services.Implementations
                 IsActive = u.IsActive,
                 CreatedAt = u.CreatedAt
             });
+        }
+
+        public async Task<UserResponse> GetCandidatesByIdAsync(Guid id)
+        {
+            var user = await _userRepo.GetByIdAsync(id);
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {id} not found.");
+
+            return new UserResponse
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                Role = user.Role,
+                IsActive = user.IsActive,
+                CreatedAt = user.CreatedAt
+            };
+
         }
 
         // ─── PRIVATE MAPPERS ──────────────────────────────────────────────
