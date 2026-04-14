@@ -17,6 +17,8 @@ namespace TestManagementApplication.Data
         public DbSet<CapturedImage> CapturedImages => Set<CapturedImage>();
         public DbSet<VideoRecording> VideoRecordings => Set<VideoRecording>();
 
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

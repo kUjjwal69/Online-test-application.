@@ -99,7 +99,11 @@ builder.Services.AddScoped<IUserAnswerRepository, UserAnswerRepository>();
 builder.Services.AddScoped<IViolationRepository, ViolationRepository>();
 builder.Services.AddScoped<ICapturedImageRepository, CapturedImageRepository>();
 builder.Services.AddScoped<IVideoRecordingRepository, VideoRecordingRepository>();
+
+
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 // ═══════════════════════════════════════════════════════════════
 //  DEPENDENCY INJECTION — SERVICES

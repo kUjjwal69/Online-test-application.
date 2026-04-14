@@ -19,8 +19,6 @@ namespace TestManagementApplication.Controllers
 
         /// <summary>Register a new candidate account</summary>
         [HttpPost("register")]
-        [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var result = await _authService.RegisterAsync(request);
@@ -30,12 +28,31 @@ namespace TestManagementApplication.Controllers
 
         /// <summary>Login and receive a JWT token</summary>
         [HttpPost("login")]
-        [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await _authService.LoginAsync(request);
             return Ok(ApiResponse<AuthResponse>.Ok(result, "Login successful."));
         }
+
+        /// <summary>Refresh an expired access token using a valid refresh token</summary>
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var result = await _authService.RefreshTokenAsync(request);
+            return Ok(ApiResponse<AuthResponse>.Ok(result, "Token refreshed successfully."));
+        }
+
+        /// <summary>Revoke the refresh token (logout)</summary>
+        [HttpPost("revoke")]
+        public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest request)
+        {
+            await _authService.RevokeTokenAsync(request.AccessToken);
+            return Ok(ApiResponse<string>.Ok("Refresh token revoked successfully.", "Logout successful."));
+        }
+    }
+
+    public class RevokeTokenRequest
+    {
+        public string AccessToken { get; set; } = string.Empty;
     }
 }
