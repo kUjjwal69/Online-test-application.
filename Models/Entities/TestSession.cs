@@ -5,7 +5,7 @@ namespace TestManagementApplication.Models.Entities
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid TestId { get; set; }
         public Guid UserId { get; set; }
-        public DateTime StartTime { get; set; } = DateTime.UtcNow;
+        public DateTime ? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public string Status { get; set; } = SessionStatus.Active; // Active / Completed / Suspended
         public int ViolationCount { get; set; } = 0;

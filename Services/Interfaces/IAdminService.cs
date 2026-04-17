@@ -1,4 +1,4 @@
-﻿using TestManagementApplication.Models.DTOs.Admin;
+using TestManagementApplication.Models.DTOs.Admin;
 
 namespace TestManagementApplication.Services.Interfaces
 {
@@ -19,11 +19,15 @@ namespace TestManagementApplication.Services.Interfaces
         // Assignments
         Task AssignTestAsync(Guid testId, AssignTestRequest request);
         Task UnassignTestAsync(Guid testId, Guid userId);
+        Task<IEnumerable<AssignmentResponse>> GetAssignmentsByUserAsync(Guid userId);
 
         // Sessions
         Task<IEnumerable<SessionSummaryResponse>> GetAllSessionsAsync();
         Task<SessionSummaryResponse> GetSessionByIdAsync(Guid sessionId);
         Task SuspendSessionAsync(Guid sessionId);
+        Task ResetSessionAsync(Guid sessionId);
+        // block specific user
+        Task BlockUserAsync(Guid userId);
         Task<IEnumerable<ViolationResponse>> GetSessionViolationsAsync(Guid sessionId);
         Task<IEnumerable<ScreenshotResponse>> GetSessionScreenshotsAsync(Guid sessionId);
         Task<IEnumerable<VideoRecordingResponse>> GetSessionVideosAsync(Guid sessionId);

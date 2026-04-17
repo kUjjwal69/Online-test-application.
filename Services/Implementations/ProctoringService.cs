@@ -8,6 +8,7 @@ namespace TestManagementApplication.Services.Implementations
     public class ProctoringService : IProctoringService
     {
         private readonly ITestSessionRepository _sessionRepo;
+        private readonly ITestAssignmentRepository _assignmentRepo;
         private readonly IViolationRepository _violationRepo;
         private readonly ICapturedImageRepository _imageRepo;
         private readonly IVideoRecordingRepository _videoRepo;
@@ -16,6 +17,7 @@ namespace TestManagementApplication.Services.Implementations
 
         public ProctoringService(
             ITestSessionRepository sessionRepo,
+            ITestAssignmentRepository assignmentRepo,
             IViolationRepository violationRepo,
             ICapturedImageRepository imageRepo,
             IVideoRecordingRepository videoRepo,
@@ -23,6 +25,7 @@ namespace TestManagementApplication.Services.Implementations
             ILogger<ProctoringService> logger)
         {
             _sessionRepo = sessionRepo;
+            _assignmentRepo = assignmentRepo;
             _violationRepo = violationRepo;
             _imageRepo = imageRepo;
             _videoRepo = videoRepo;
@@ -113,6 +116,14 @@ namespace TestManagementApplication.Services.Implementations
                 session.Status = SessionStatus.Suspended;
                 session.EndTime = DateTime.UtcNow;
                 suspended = true;
+
+                var assignment = await _assignmentRepo.GetAsync(session.TestId, session.UserId);
+                if (assignment != null)
+                {
+                    assignment.Status = AssignmentStatus.Suspended;
+                    await _assignmentRepo.UpdateAsync(assignment);
+                }
+
                 _logger.LogWarning("Session {SessionId} suspended due to {Count} violations.", sessionId, totalViolations);
             }
 

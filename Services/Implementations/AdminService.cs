@@ -156,20 +156,27 @@ namespace TestManagementApplication.Services.Implementations
 
         public async Task AssignTestAsync(Guid testId, AssignTestRequest request)
         {
-            if (!await _testRepo.ExistsAsync(testId))
-                throw new KeyNotFoundException($"Test with ID {testId} not found.");
-            if (!await _userRepo.ExistsAsync(request.UserId))
-                throw new KeyNotFoundException($"User with ID {request.UserId} not found.");
-            if (await _assignmentRepo.ExistsAsync(testId, request.UserId))
-                throw new InvalidOperationException("Test is already assigned to this user.");
+            try {
+                if (!await _testRepo.ExistsAsync(testId))
+                    throw new KeyNotFoundException($"Test with ID {testId} not found.");
+                if (!await _userRepo.ExistsAsync(request.UserId))
+                    throw new KeyNotFoundException($"User with ID {request.UserId} not found.");
+                if (await _assignmentRepo.ExistsAsync(testId, request.UserId))
+                    throw new InvalidOperationException("Test is already assigned to this user.");
 
-            var assignment = new TestAssignment
-            {
-                TestId = testId,
-                UserId = request.UserId,
-                ExpiresAt = request.ExpiresAt
-            };
-            await _assignmentRepo.AddAsync(assignment);
+                var assignment = new TestAssignment
+                {
+                    TestId = testId,
+                    UserId = request.UserId,
+                    ExpiresAt = request.ExpiresAt
+                };
+                await _assignmentRepo.AddAsync(assignment);
+            }
+            catch(Exception ex) {
+                Console.WriteLine(ex);
+            }
+
+            
         }
 
         public async Task UnassignTestAsync(Guid testId, Guid userId)
@@ -177,6 +184,12 @@ namespace TestManagementApplication.Services.Implementations
             if (!await _assignmentRepo.ExistsAsync(testId, userId))
                 throw new KeyNotFoundException("Test assignment not found for this user.");
             await _assignmentRepo.DeleteAsync(testId, userId);
+        }
+
+        public async Task<IEnumerable<AssignmentResponse>> GetAssignmentsByUserAsync(Guid userId)
+        {
+            var assignments = await _assignmentRepo.GetByUserIdAsync(userId);
+            return assignments.Select(MapAssignmentResponse);
         }
 
         // ─── SESSIONS ─────────────────────────────────────────────────────
@@ -205,6 +218,13 @@ namespace TestManagementApplication.Services.Implementations
             session.Status = SessionStatus.Suspended;
             session.EndTime = DateTime.UtcNow;
             await _sessionRepo.UpdateAsync(session);
+
+            var assignment = await _assignmentRepo.GetAsync(session.TestId, session.UserId);
+            if (assignment != null)
+            {
+                assignment.Status = AssignmentStatus.Suspended;
+                await _assignmentRepo.UpdateAsync(assignment);
+            }
         }
 
         public async Task<IEnumerable<ViolationResponse>> GetSessionViolationsAsync(Guid sessionId)
@@ -258,7 +278,9 @@ namespace TestManagementApplication.Services.Implementations
         public async Task<IEnumerable<UserResponse>> GetAllCandidatesAsync()
         {
             var users = await _userRepo.GetAllAsync();
-            return users.Select(u => new UserResponse
+            
+            return users.Where(u => u.Role != "Admin")
+                .Select(u => new UserResponse
             {
                 Id = u.Id,
                 Username = u.Username,
@@ -304,6 +326,19 @@ namespace TestManagementApplication.Services.Implementations
             QuestionCount = questionCount
         };
 
+        private static AssignmentResponse MapAssignmentResponse(TestAssignment a) => new()
+        {
+            Id = a.Id,
+            TestId = a.TestId,
+            UserId = a.UserId,
+            TestTitle = a.Test?.Title ?? "Unknown Test",
+            UserName = a.User?.Username ?? "Unknown User",
+            UserEmail = a.User?.Email ?? string.Empty,
+            AssignedAt = a.AssignedAt,
+            ExpiresAt = a.ExpiresAt,
+            Status = a.Status
+        };
+
         private static QuestionResponse MapQuestionResponse(Question q) => new()
         {
             Id = q.Id,
@@ -321,6 +356,8 @@ namespace TestManagementApplication.Services.Implementations
         private static SessionSummaryResponse MapSessionSummary(TestSession s) => new()
         {
             Id = s.Id,
+            UserId = s.UserId,                              // 👈 added
+            UserName = s.User?.Username ?? s.User?.Email ?? "Unknown",
             CandidateUsername = s.User?.Username ?? "Unknown",
             TestTitle = s.Test?.Title ?? "Unknown",
             StartTime = s.StartTime,
@@ -349,6 +386,49 @@ namespace TestManagementApplication.Services.Implementations
             var valid = new[] { "A", "B", "C", "D" };
             if (!valid.Contains(correctOption.ToUpper()))
                 throw new ArgumentException("CorrectOption must be A, B, C, or D.");
+        }
+
+
+        public async Task ResetSessionAsync(Guid sessionId)
+        {
+            var session = await _sessionRepo.GetByIdAsync(sessionId)
+                ?? throw new KeyNotFoundException($"Session with ID {sessionId} not found.");
+
+            // Optional: Only allow reset if suspended or completed
+            if (session.Status != "Suspended" && session.Status != "Completed")
+            {
+                throw new InvalidOperationException("Only suspended or completed sessions can be reset.");
+            }
+
+            // 🔁 Reset logic
+            session.Status = "NotStarted";
+            session.StartTime = null;
+            session.EndTime = null;
+
+            await _sessionRepo.UpdateAsync(session);
+
+            var assignment = await _assignmentRepo.GetAsync(session.TestId, session.UserId);
+            if (assignment != null)
+            {
+                assignment.Status = AssignmentStatus.NotStarted;
+                await _assignmentRepo.UpdateAsync(assignment);
+            }
+        }
+
+        public async Task BlockUserAsync(Guid userId)
+        {
+            var user = await _userRepo.GetByIdAsync(userId)
+                ?? throw new KeyNotFoundException($"User with ID {userId} not found.");
+
+            if (!user.IsActive)
+            {
+                throw new InvalidOperationException("User is already blocked.");
+            }
+
+            // 🔴 Core logic
+            user.IsActive = false;
+
+            await _userRepo.UpdateAsync(user);
         }
     }
 }

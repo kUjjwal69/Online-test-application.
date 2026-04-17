@@ -83,13 +83,28 @@ namespace TestManagementApplication.Models.DTOs.Admin
         public DateTime? ExpiresAt { get; set; }
     }
 
+    public class AssignmentResponse
+    {
+        public Guid Id { get; set; }
+        public Guid TestId { get; set; }
+        public Guid UserId { get; set; }
+        public string TestTitle { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string UserEmail { get; set; } = string.Empty;
+        public DateTime AssignedAt { get; set; }
+        public DateTime? ExpiresAt { get; set; }
+        public string Status { get; set; } = "NotStarted";
+    }
+
     // ─── Session Monitor DTOs ─────────────────────────────────────
     public class SessionSummaryResponse
     {
         public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public string UserName { get; set; } = string.Empty;
         public string CandidateUsername { get; set; } = string.Empty;
         public string TestTitle { get; set; } = string.Empty;
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public string Status { get; set; } = string.Empty;
         public int ViolationCount { get; set; }

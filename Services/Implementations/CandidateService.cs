@@ -1,3 +1,4 @@
+using Azure.Core;
 using TestManagementApplication.Models.DTOs.Candidate;
 using TestManagementApplication.Models.Entities;
 using TestManagementApplication.Repositories.Interfaces;
@@ -52,7 +53,11 @@ namespace TestManagementApplication.Services.Implementations
                     PassingMarks = a.Test.PassingMarks,
                     AssignedAt = a.AssignedAt,
                     ExpiresAt = a.ExpiresAt,
-                    AlreadyAttempted = alreadyAttempted
+                    AlreadyAttempted = alreadyAttempted,
+                    // ✅ dynamic + default fallback
+                    Status = string.IsNullOrEmpty(a.Status)
+                        ? AssignmentStatus.NotStarted
+                        : a.Status
                 });
             }
 
@@ -269,6 +274,14 @@ namespace TestManagementApplication.Services.Implementations
             session.EndTime = DateTime.UtcNow;
 
             await _sessionRepo.UpdateAsync(session);
+
+            // Update assignment status to Completed
+            var assignment = await _assignmentRepo.GetAsync(session.TestId, session.UserId);
+            if (assignment != null)
+            {
+                assignment.Status = AssignmentStatus.Completed;
+                await _assignmentRepo.UpdateAsync(assignment);
+            }
 
             int correctCount = answers.Count(a => a.IsCorrect);
 
