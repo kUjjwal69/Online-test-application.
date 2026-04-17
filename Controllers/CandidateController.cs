@@ -24,7 +24,6 @@ namespace TestManagementApplication.Controllers
 
         /// <summary>[Candidate] View all tests assigned to the logged-in candidate</summary>
         [HttpGet("tests")]
-        [ProducesResponseType(typeof(ApiResponse<IEnumerable<AssignedTestResponse>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAssignedTests()
         {
             var userId = JwtHelper.GetUserIdFromClaims(User);
@@ -36,9 +35,7 @@ namespace TestManagementApplication.Controllers
 
         /// <summary>[Candidate] Start an assigned test (creates a TestSession)</summary>
         [HttpPost("tests/{testId:guid}/start")]
-        [ProducesResponseType(typeof(ApiResponse<StartTestResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+
         public async Task<IActionResult> StartTest(Guid testId)
         {
             var userId = JwtHelper.GetUserIdFromClaims(User);
@@ -76,8 +73,6 @@ namespace TestManagementApplication.Controllers
 
         /// <summary>[Candidate] Submit the test and get scored results</summary>
         [HttpPost("sessions/{sessionId:guid}/submit")]
-        [ProducesResponseType(typeof(ApiResponse<TestResultResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SubmitTest(Guid sessionId)
         {
             var userId = JwtHelper.GetUserIdFromClaims(User);

@@ -11,6 +11,8 @@ namespace TestManagementApplication.Models.DTOs.Candidate
         public DateTime AssignedAt { get; set; }
         public DateTime? ExpiresAt { get; set; }
         public bool AlreadyAttempted { get; set; }
+        public string Status { get; set; } = string.Empty;
+
     }
 
     public class StartTestResponse
@@ -19,7 +21,7 @@ namespace TestManagementApplication.Models.DTOs.Candidate
         public Guid TestId { get; set; }
         public string TestTitle { get; set; } = string.Empty;
         public int DurationMinutes { get; set; }
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         public int ViolationThreshold { get; set; }
     }
 
@@ -60,7 +62,7 @@ namespace TestManagementApplication.Models.DTOs.Candidate
         public decimal Percentage { get; set; }
         public bool IsPassed { get; set; }
         public string Status { get; set; } = string.Empty;
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int ViolationCount { get; set; }
         public int TotalQuestions { get; set; }

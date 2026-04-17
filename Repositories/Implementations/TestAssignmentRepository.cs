@@ -19,6 +19,7 @@ namespace TestManagementApplication.Repositories.Implementations
         public async Task<IEnumerable<TestAssignment>> GetByUserIdAsync(Guid userId)
             => await _context.TestAssignments
                 .Include(a => a.Test)
+                .Include(b => b.User)
                 .Where(a => a.UserId == userId)
                 .ToListAsync();
 

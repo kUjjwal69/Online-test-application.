@@ -108,6 +108,14 @@ namespace TestManagementApplication.Controllers
             await _adminService.UnassignTestAsync(testId, UserId);
             return Ok(ApiResponse.Ok("Test unassigned from candidate successfully."));
         }
+
+        /// <summary>[Admin] Get all test assignments for a specific user</summary>
+        [HttpGet("users/{userId:guid}/assignments")]
+        public async Task<IActionResult> GetUserAssignments(Guid userId)
+        {
+            var assignments = await _adminService.GetAssignmentsByUserAsync(userId);
+            return Ok(ApiResponse<IEnumerable<AssignmentResponse>>.Ok(assignments));
+        }
         /// <summary>[Admin] Get all test sessions</summary>
         [HttpGet("sessions")]
         public async Task<IActionResult> GetAllSessions()
@@ -176,6 +184,27 @@ namespace TestManagementApplication.Controllers
                 return BadRequest($"User wit this {userId} does not exist");
             }
             return Ok(users);
+        }
+
+        // allow candidates for a retest
+        [HttpPatch("sessions/{sessionId:guid}/retest")]
+        public async Task<ActionResult> ResetSession(Guid sessionId)
+        {
+            await _adminService.ResetSessionAsync(sessionId);
+            return Ok(ApiResponse.Ok("Session reset  successfully."));
+        }
+
+        // block the user candidate
+        [HttpPatch("users/{userId}/block")]
+        public async Task<ActionResult> BlockUser(Guid userId)
+        {
+            var user = await _adminService.GetCandidatesByIdAsync(userId);
+            if(user == null)
+            {
+                return BadRequest($"User wit this {userId} does not exist");
+            }
+            await _adminService.BlockUserAsync(userId);
+            return Ok("User Blocked Successfully");
         }
     }
 }
